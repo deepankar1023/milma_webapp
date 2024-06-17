@@ -1,0 +1,48 @@
+/* Footer.css */
+
+.footer {
+    background-color: #333; /* Footer background color */
+    color: #fff; /* Text color */
+    padding: 30px 0; /* Padding */
+    font-size: 14px; /* Font size */
+    display: flex;
+    flex-wrap: wrap; /* Allow sections to wrap */
+    justify-content: space-around; /* Center align sections */
+}
+
+.footer-section {
+    width: 20%; /* Adjust width as needed */
+    padding: 0 20px; /* Adjust padding */
+    text-align: center; /* Center align content */
+    margin-bottom: 20px; /* Optional: Add bottom margin */
+}
+
+.footer-section h3 {
+    font-size: 16px; /* Section title font size */
+    margin-bottom: 10px; /* Bottom margin */
+}
+
+.footer-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px; /* Adjust spacing between items */
+}
+
+.social-media .social-icons {
+    display: flex;
+    justify-content: center; /* Center align social icons */
+}
+
+.social-media .social-icons a {
+    display: inline-block;
+    color: #fff;
+    font-size: 20px;
+    margin-right: 10px; /* Adjust spacing between icons */
+}
+
+.social-media .social-icons a:last-child {
+    margin-right: 0; /* Remove margin from last icon */
+}
