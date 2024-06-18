@@ -2,24 +2,24 @@ import React from "react";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import "./Navbar.css"; // Import your CSS file for Navbar styling
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = ({ isLoggedIn,setIsLoggedIn }) => {
     return (
         <nav className="navbar">
             <ul>
-                <li className="options">
+                <li className="left">
                     <IoPhonePortraitOutline />
                     <span>Get the App</span>
                 </li>
-                <li>Add Restaurant</li>
+                <li className="right">Add Restaurant</li>
                 {isLoggedIn ? (
                     <>
-                        <li>Profile</li>
-                        <li>Logout</li>
+                        <li className="right">Profile</li>
+                        <li className="right">Logout</li>
                     </>
                 ) : (
                     <>
-                        <li>LogIn</li>
-                        <li>SignUp</li>
+                        <li className="right">LogIn</li>
+                        <li className="right">SignUp</li>
                     </>
                 )}
             </ul>

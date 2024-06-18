@@ -1,0 +1,63 @@
+.banner {
+    width: 100%;
+    height: 30rem;
+    margin-bottom: 2rem;
+}
+
+.bannerInner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bannerImg {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    object-fit: cover;
+}
+
+.bannerTxt {
+    position: absolute;
+    color: var(--color-white);
+}
+
+.title {
+    font-size: 4rem; /* Increased font size */
+    font-weight: bold;
+    text-align: center;
+    color: whitesmoke; /* Set color to white */
+    font-family: 'Arial Black', Gadget, sans-serif; /* Suitable font family for titles */
+    text-transform: uppercase; /* Optional: Makes the text uppercase */
+    letter-spacing: 0.05em; /* Optional: Adds a bit of spacing between letters */
+}
+
+
+.tag {
+    font-size: 2rem;
+    text-align: center;
+    color: whitesmoke;
+}
+
+.bld {
+    font-weight: bold;
+}
+
+.searchbar {
+    margin: 1rem 0;
+}
+
+@media all and (max-width: 480px) {
+    .title {
+        font-size: 1.9rem;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .tag {
+        font-size: 1.3rem;
+        text-align: center;
+    }
+}

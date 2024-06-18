@@ -13,8 +13,8 @@ const SmallCard =()=> {
         <>
             <div className="cards">
                 <div className="card">
-                    <div className="image"><img src={img1} alt="#"/></div>
-                    <div className="cardname"><p>Order Online</p></div>
+                    <div className="imgBox"><img src={img1} alt="#"/></div>
+                    <div className="txtBx"><p className="txt">Order Online</p></div>
                 </div>
 
                 <div className="card">
