@@ -61,3 +61,18 @@
         text-align: center;
     }
 }
+
+.chooseTypeCards {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px; /* Add some margin to the top */
+}
+
+@media all and (max-width: 768px) {
+    .chooseTypeCards {
+        width: 90%;
+        margin-top: 20px; /* Ensure margin is applied for smaller screens too */
+    }
+}

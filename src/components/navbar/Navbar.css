@@ -1,36 +1,45 @@
-/* Navbar.css */
-
-.navbar {
-    background-color: #333; /* Example background color */
-    color: white;
+.navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; /* Adjust padding as needed */
-}
-
-.navbar ul {
-    list-style-type: none;
-    margin: 0;
+    padding: 0 20px;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
     padding: 0;
+    margin: 0;
+  }
+  
+  .navbar-links li {
     display: flex;
     align-items: center;
-}
-
-.navbar ul li {
-    cursor: pointer; /* Optional: Add pointer cursor for clickable items */
-}
-
-.navbar ul li.left {
+  }
+  
+  .navbar-links a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+  }
+  
+  .navbar-auth {
     display: flex;
-    align-items: center;
-    margin-right: auto; /* Pushes "Get the App" to the left */
-}
-
-.navbar ul li.left svg {
-    margin-right: 5px; /* Adjust spacing between icon and text */
-}
-
-.navbar ul li.right {
-    margin-left: 20px; /* Adjust spacing between list items */
-}
+    gap: 10px;
+  }
+  
+  .auth-button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .auth-button:hover {
+    background-color: #0056b3;
+  }
+  

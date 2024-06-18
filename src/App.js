@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import css from './App.module.css'
+import { Route, Routes } from "react-router-dom";
 
 import HomePageBanner from './components/homepage/HomePageBanner';
-import SmallCard from './components/card1/SmallCard';
-import Footer from "./components/Footer/Footer";
-import OrderCard from './components/ordercard/OrderCard';
 
-import orderOnlineImg from './components/assets/images/orderonline.jpg';
-import diningoutImg from './components/assets/images/diningout.jpg';
-import proandproplusImg from './components/assets/images/proandproplus.jpg';
-import nightlifeandclubsImg from './components/assets/images/nightlifeandclubs.jpg';
+
+
+
+
+
+import Login from "./pages/Login"
+import Signup from "./pages/Signup"
+import Dashboard from "./pages/Dashboard"
 
 
 const App =() => {
@@ -20,16 +22,18 @@ const App =() => {
 
     return (
        <>
-       <HomePageBanner isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} city={city}/>
+       
+        {/* <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/> */}
+        <Routes>
+            <Route index element= {<HomePageBanner isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} city={city}/>} />
+            <Route path="/login" element = {<Login  setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/signup" element={<Signup  setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/dashboard" element = {<Dashboard/>} />
+        </Routes>
+        {/* <HomePageBanner isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} city={city}/> */}
         
-        <div className={css.chooseTypeCards}>
-        <SmallCard imgSrc={orderOnlineImg} text="Order Online"  />
-        <SmallCard imgSrc={diningoutImg} text="Dining Out"  />
-        <SmallCard imgSrc={proandproplusImg} text="Pro and Pro Plus"  />
-        <SmallCard imgSrc={nightlifeandclubsImg} text="Night Life and Clubs" />
-      </div>
-        <OrderCard/>
-        <Footer/>
+        
+    
        </>
     );
 }

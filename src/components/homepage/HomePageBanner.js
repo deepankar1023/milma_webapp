@@ -2,9 +2,15 @@ import React from "react";
 import Navbar from "../navbar/Navbar"
 
 import SearchBar from "../SearchBar/SearchBar";
+import SmallCard from '../card1/SmallCard';
+import Footer from "../Footer/Footer";
+import OrderCard from '../ordercard/OrderCard';
 
 
-
+import orderOnlineImg from '../assets/images/orderonline.jpg';
+import diningoutImg from '../assets/images/diningout.jpg';
+import proandproplusImg from '../assets/images/proandproplus.jpg';
+import nightlifeandclubsImg from '../assets/images/nightlifeandclubs.jpg';
 
 
 
@@ -28,6 +34,16 @@ const HomePageBanner = ({ isLoggedIn, setIsLoggedIn, city }) => {
                 </div>
             </div>
         </div>
+
+        <div className={css.chooseTypeCards}>
+            <SmallCard imgSrc={orderOnlineImg} text="Order Online"  />
+            <SmallCard imgSrc={diningoutImg} text="Dining Out"  />
+            <SmallCard imgSrc={proandproplusImg} text="Pro and Pro Plus"  />
+            <SmallCard imgSrc={nightlifeandclubsImg} text="Night Life and Clubs" />
+        </div>
+
+        <OrderCard/>
+        <Footer/>
     </div>
     );
 };
