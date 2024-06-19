@@ -23,14 +23,14 @@ const App =() => {
     return (
        <>
        
-        {/* <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/> */}
+        
         <Routes>
             <Route index element= {<HomePageBanner isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} city={city}/>} />
             <Route path="/login" element = {<Login  setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/signup" element={<Signup  setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/dashboard" element = {<Dashboard/>} />
         </Routes>
-        {/* <HomePageBanner isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} city={city}/> */}
+       
         
         
     
