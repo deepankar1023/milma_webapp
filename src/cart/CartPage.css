@@ -1,0 +1,13 @@
+/* Hide the scrollbar while keeping scroll functionality */
+.custom-scrollbar {
+    max-height: 80vh; /* Ensure it doesn't overflow the screen height */
+    overflow-y: scroll;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0px;  /* For Chrome, Safari, and Opera */
+    height: 0px;
+  }
+  

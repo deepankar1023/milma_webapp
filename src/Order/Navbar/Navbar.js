@@ -9,8 +9,6 @@ const Navbar = ({ cartCount, totalCartValue, onAddressChange, cart }) => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  
-
   return (
     <header className="text-gray-600 body-font bg-gray-100">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -30,7 +28,7 @@ const Navbar = ({ cartCount, totalCartValue, onAddressChange, cart }) => {
               <span className="ml-2 text-white">Total: ${totalCartValue.toFixed(2)}</span>
             </button>
             {isDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-80 bg-white shadow-lg rounded-lg p-4">
+              <div className="absolute top-full right-0 mt-2 w-80 bg-white shadow-lg rounded-lg p-4 z-50">
                 <h3 className="text-lg font-semibold mb-2">Shopping Cart</h3>
                 {Object.keys(cart).length === 0 ? (
                   <p>Your cart is empty.</p>
