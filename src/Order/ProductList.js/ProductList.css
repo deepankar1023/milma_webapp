@@ -14,10 +14,10 @@
   /* Center the SideMenu vertically and ensure it is visible */
   .sidemenu-container {
     position: sticky;
-    top: 50%;
-    /* transform: translateY(-50%); */
-    z-index: 10; /* Ensure it stays on top of other elements */
-    background-color: white; /* Make sure it has a background */
-    padding: 1rem; /* Add some padding if needed */
-  }
+    /* top: 50%;
+    transform: translateY(-50%);
+    z-index: 10; 
+    background-color: white; 
+    padding: 1rem; */
+  } 
   

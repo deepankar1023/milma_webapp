@@ -1,4 +1,7 @@
 import React from "react";
+import ghat from "../assets/about/ghat.jpg"
+import guitar from "../assets/about/guitar.jpg"
+
 const About = ()=>{
     return (
         <>
@@ -9,28 +12,13 @@ const About = ()=>{
         <img
           alt="content"
           className="object-cover object-center h-full w-full"
-          src="https://dummyimage.com/1200x500"
+          src={ghat}
         />
       </div>
       <div className="flex flex-col sm:flex-row mt-10">
         <div className="sm:w-1/3 text-center sm:pr-8 sm:py-8">
           <div className="w-20 h-20 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
-            <svg
-              className="w-10 h-10"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-              <circle
-                cx="12"
-                cy="7"
-                r="4"
-              />
-            </svg>
+          <img className="w-25 h-25" src={guitar} alt="#" />
           </div>
           <div className="flex flex-col items-center text-center justify-center">
             <h2 className="font-medium title-font mt-4 text-gray-900 text-lg">

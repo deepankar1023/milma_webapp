@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import logo from "../../components/assets/logo.png";
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ cartCount, totalCartValue, onAddressChange, cart }) => {
+const MenuNavbar = ({ cartCount, totalCartValue, onAddressChange, cart }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -57,4 +57,4 @@ const Navbar = ({ cartCount, totalCartValue, onAddressChange, cart }) => {
   );
 };
 
-export default Navbar;
+export default MenuNavbar;
