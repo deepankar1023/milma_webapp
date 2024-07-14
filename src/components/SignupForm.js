@@ -36,9 +36,9 @@ const SignupForm = ({ setIsLoggedIn }) => {
     };
   
     try {
-      const response = await axios.post("http://localhost:4000/signup", accountData);
+      const response = await axios.post("/signup", accountData);
       console.log("Response:", response);
-      setIsLoggedIn(true);
+      
       alert("Account Created");
       navigate("/");
     } catch (error) {

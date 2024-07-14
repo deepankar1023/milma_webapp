@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import HomePageBanner from './components/homepage/HomePageBanner';
 import ProductList from './Order/ProductList.js/ProductList';
 import Contact from './components/Contact/Contact';
@@ -57,6 +58,7 @@ const App = () => {
 
   return (
     <>
+    <Toaster position="top" reverseOrder={false} />
       {location.pathname === '/menu' && (
         <MenuNavbar
           cartCount={Object.keys(cart).length}
