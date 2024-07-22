@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './CartPage.css'; // Make sure to create this CSS file and include the styles
+import './CartPage.css';
 
-const CartPage = ({ cart }) => {
+const CartPage = ({ cart, handleDecrement, handleIncrement }) => {
   const getTotalCartValue = () => {
     return Object.keys(cart).reduce((total, productId) => {
       const item = cart[productId];
@@ -14,7 +14,7 @@ const CartPage = ({ cart }) => {
     <div className="container mx-auto py-6">
       <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
       <div className="flex flex-col lg:flex-row">
-        <div className="flex-1 custom-scrollbar"> {/* Applied custom scrollbar class */}
+        <div className="flex-1 custom-scrollbar">
           {Object.keys(cart).map(productId => {
             const item = cart[productId];
             return (
@@ -31,6 +31,11 @@ const CartPage = ({ cart }) => {
                   <div className="ml-8 flex flex-col justify-center">
                     <p className="text-lg font-medium">{item.product.name}</p>
                     <p className="text-sm text-gray-500 mt-1">Quantity: {item.quantity}</p>
+                    <div className="flex items-center mt-2">
+                      <button onClick={() => handleDecrement(productId)} className="px-2 py-1 bg-gray-200 text-gray-700 rounded">-</button>
+                      <span className="mx-2">{item.quantity}</span>
+                      <button onClick={() => handleIncrement(productId)} className="px-2 py-1 bg-gray-200 text-gray-700 rounded">+</button>
+                    </div>
                     <button className="text-sm text-blue-500 mt-2">Move to Favorites</button>
                   </div>
                 </div>

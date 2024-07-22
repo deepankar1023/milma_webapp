@@ -3,7 +3,7 @@ import axios from 'axios';
 import Product from '../Product/Product';
 import SideMenu from '../Sidebar/Sidebar';
 
-const ProductList = ({ categories, activeCategory, setActiveCategory, cart, addToCart }) => {
+const ProductList = ({ categories, activeCategory, setActiveCategory, cart }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -26,12 +26,11 @@ const ProductList = ({ categories, activeCategory, setActiveCategory, cart, addT
       <SideMenu categories={categories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       <div className="w-3/4 sidemenu-container">
         <h2 className="text-2xl font-bold mb-4">{activeCategory}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           {filteredProducts.map(product => (
             <Product
               key={product.id}
               product={product}
-              addToCart={addToCart}
               quantity={cart[product.id] ? cart[product.id].quantity : 0}
             />
           ))}

@@ -18,7 +18,7 @@ import milma from "./milma.jpg";
 const HomePageBanner = ({ isLoggedIn, setIsLoggedIn, city }) => {
     return (
         <div className={css.banner}>
-            <Navbar isLoggedIn={isLoggedIn} />
+            <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
             <div className={css.bannerInner}>
                 <img src={milma} alt="banner" className={css.bannerImg} />
                 <div className={css.bannerTxt}>
