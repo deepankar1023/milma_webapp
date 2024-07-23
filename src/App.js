@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+// import { Toaster } from 'react-hot-toast';
 import HomePageBanner from './components/homepage/HomePageBanner';
 import ProductList from './Order/ProductList.js/ProductList';
 import Contact from './components/Contact/Contact';
@@ -19,7 +19,7 @@ import ProductDetail from './Order/productdetail/ProductDetail';
 import { UserProvider } from './utils/context';
 import axios from 'axios';
 // import Cookies from 'js-cookie';if using cookie from backend so,add cookie in res from bcknd then use
-import { requestFirebaseNotificationPermission, onMessageListener } from './firebase';
+// import { requestFirebaseNotificationPermission, onMessageListener } from './firebase';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -91,15 +91,25 @@ const App = () => {
     fetchCart();
   }, []);
 
-  const updateCartItem = async function updateCartItem(itemId, quantity) {
+  const updateCartItem = async (itemId, quantity) => {
     try {
       const token = localStorage.getItem('token'); // Get token from local storage
       const response = await axios.put(
-        '/api/cart/items/' + itemId, 
+        `/api/cart/items/${itemId}`, 
         { quantity }, 
         { headers: { Authorization: `Bearer ${token}` } } // Include token in headers
       );
-      // Handle successful response
+      console.log(itemId)
+      console.log(response)
+      
+      // Update the local state only if the API call is successful
+      setCart(prevCart => ({
+        ...prevCart,
+        [itemId]: {
+          ...prevCart[itemId],
+          quantity: response.data.quantity
+        }
+      }));
       console.log('Cart item updated:', response.data);
     } catch (error) { 
       console.error('Error updating cart item:', error);
