@@ -39,6 +39,7 @@ const Product = ({ product, quantity }) => {
 
   const handleRedirect = () => {
     navigate(`/menu/${product._id}`);
+   
   };
 
   return (
@@ -58,7 +59,7 @@ const Product = ({ product, quantity }) => {
         </button>
       </div>
       <div className="flex">
-        <button onClick={(e) => { e.stopPropagation(); handleAddToCart(); }} className="bg-blue-500 text-white px-3 py-1 rounded mr-2">
+        <button onClick={(e) => { e.stopPropagation(); handleAddToCart(); window.location.reload();}} className="bg-blue-500 text-white px-3 py-1 rounded mr-2">
           Add to Cart
         </button>
         <button className="bg-blue-500 text-white px-3 py-1 rounded">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 
 const SignupForm = ({ setIsLoggedIn }) => {
@@ -9,6 +10,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
     const [formData, setFormData] = useState({
         name: "",
         rollNo: "",
+        contact: "",
         email: "",
         password: "",
         confirmPassword: ""
@@ -24,121 +26,148 @@ const SignupForm = ({ setIsLoggedIn }) => {
         }));
     }
 
-    // Your submit handler
     async function submitHandler(event) {
-    event.preventDefault();
-    
-    const accountData = {
-      name: formData.name,
-      rollNo: formData.rollNo,
-      email: formData.email,
-      password: formData.password,
-    };
-  
-    try {
-      const response = await axios.post("/signup", accountData);
-      console.log("Response:", response);
-      
-      alert("Account Created");
-      navigate("/");
-    } catch (error) {
-      console.error("Signup error:", error);
-      alert("Failed to create account");
+        event.preventDefault();
+        
+        if (formData.password !== formData.confirmPassword) {
+            toast.error("Passwords do not match");
+            return;
+        }
+
+        const accountData = {
+            name: formData.name,
+            rollNo: formData.rollNo,
+            contact: formData.contact,
+            email: formData.email,
+            password: formData.password,
+        };
+
+        try {
+            const response = await axios.post("/signup", accountData);
+            toast.success("Account Created");
+            navigate("/");
+        } catch (error) {
+            console.error("Signup error:", error);
+            toast.error("Failed to create account");
+        }
     }
-  }
 
     return (
-        <div>
-            <form onSubmit={submitHandler}>
-                {/* Name and RollNo */}
-                <div className='flex gap-x-4 mt-[20px]'>
-                    <label className='w-full'>
-                        <p className='text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]'>Name<sup className='text-pink-200'>*</sup></p>
+        <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-xl">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Create an Account</h2>
+            <form onSubmit={submitHandler} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
                         <input
+                            id="name"
                             required
                             type="text"
                             name="name"
                             onChange={changeHandler}
                             placeholder="Enter Name"
                             value={formData.name}
-                            className='bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]'
+                            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         />
-                    </label>
-                    <label className='w-full'>
-                        <p className='text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]'>Roll No<sup className='text-pink-200'>*</sup></p>
+                    </div>
+                    <div>
+                        <label htmlFor="rollNo" className="block text-sm font-medium text-gray-700">Roll No</label>
                         <input
+                            id="rollNo"
                             required
                             type="text"
                             name="rollNo"
                             onChange={changeHandler}
                             placeholder="Enter Roll No"
                             value={formData.rollNo}
-                            className='bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]'
+                            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         />
-                    </label>
+                    </div>
                 </div>
-                {/* Email */}
-                <div className='mt-[20px]'>
-                    <label className='w-full mt-[20px]'>
-                        <p className='text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]'>Email Address<sup className='text-pink-200'>*</sup></p>
-                        <input
-                            required
-                            type="email"
-                            name="email"
-                            onChange={changeHandler}
-                            placeholder="Enter Email Address"
-                            value={formData.email}
-                            className='bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]'
-                        />
-                    </label>
+                <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input
+                        id="email"
+                        required
+                        type="email"
+                        name="email"
+                        onChange={changeHandler}
+                        placeholder="Enter Email Address"
+                        value={formData.email}
+                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    />
                 </div>
-                {/* createPassword and Confirm Password */}
-                <div className='w-full flex gap-x-4 mt-[20px]'>
-                    <label className='w-full relative'>
-                        <p className='text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]'>Create Password<sup className='text-pink-200'>*</sup></p>
+                <div>
+                    <label htmlFor="contact" className="block text-sm font-medium text-gray-700">Contact Number</label>
+                    <input
+                        id="contact"
+                        required
+                        type="tel"
+                        name="contact"
+                        onChange={changeHandler}
+                        placeholder="Enter Contact Number"
+                        value={formData.contact}
+                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="relative">
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Create Password</label>
                         <input
+                            id="password"
                             required
                             type={showPassword ? "text" : "password"}
                             name="password"
                             onChange={changeHandler}
                             placeholder="Enter Password"
                             value={formData.password}
-                            className='bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]'
+                            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         />
-                        <span
-                            className='absolute right-3 top-[38px] cursor-pointer'
-                            onClick={() => setShowPassword(prev => !prev)}>
+                        <button
+                            type="button"
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                            onClick={() => setShowPassword(prev => !prev)}
+                        >
                             {showPassword ?
-                                (<AiOutlineEyeInvisible fontSize={24} fill='#AFB2BF' />) :
-                                (<AiOutlineEye fontSize={24} fill='#AFB2BF' />)}
-                        </span>
-                    </label>
-                    <label className='w-full relative'>
-                        <p className='text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]'>Confirm Password<sup className='text-pink-200'>*</sup></p>
+                                <AiOutlineEyeInvisible className="h-5 w-5 text-gray-500" /> :
+                                <AiOutlineEye className="h-5 w-5 text-gray-500" />}
+                        </button>
+                    </div>
+                    <div className="relative">
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
                         <input
+                            id="confirmPassword"
                             required
                             type={showConfirmPassword ? "text" : "password"}
                             name="confirmPassword"
                             onChange={changeHandler}
                             placeholder="Confirm Password"
                             value={formData.confirmPassword}
-                            className='bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px]'
+                            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         />
-                        <span
-                            className='absolute right-3 top-[38px] cursor-pointer'
-                            onClick={() => setShowConfirmPassword(prev => !prev)}>
+                        <button
+                            type="button"
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                            onClick={() => setShowConfirmPassword(prev => !prev)}
+                        >
                             {showConfirmPassword ?
-                                (<AiOutlineEyeInvisible fontSize={24} fill='#AFB2BF' />) :
-                                (<AiOutlineEye fontSize={24} fill='#AFB2BF' />)}
-                        </span>
-                    </label>
+                                <AiOutlineEyeInvisible className="h-5 w-5 text-gray-500" /> :
+                                <AiOutlineEye className="h-5 w-5 text-gray-500" />}
+                        </button>
+                    </div>
                 </div>
-                <button className='w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6'>
-                    Create Account
-                </button>
+                <div>
+                    <button
+                        type="submit"
+                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Create Account
+                    </button>
+                </div>
             </form>
         </div>
     );
 }
 
 export default SignupForm;
+

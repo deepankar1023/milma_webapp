@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-// import { Toaster } from 'react-hot-toast';
 import HomePageBanner from './components/homepage/HomePageBanner';
 import ProductList from './Order/ProductList.js/ProductList';
 import Contact from './components/Contact/Contact';
@@ -17,9 +16,8 @@ import { AuthProvider } from './utils/auth';
 import Logout from './components/logout/logout';
 import ProductDetail from './Order/productdetail/ProductDetail';
 import { UserProvider } from './utils/context';
+import { Toaster } from 'react-hot-toast';
 import axios from 'axios';
-// import Cookies from 'js-cookie';if using cookie from backend so,add cookie in res from bcknd then use
-// import { requestFirebaseNotificationPermission, onMessageListener } from './firebase';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,32 +25,11 @@ const App = () => {
   const [cart, setCart] = useState({});
   const [address, setAddress] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const categories = ['Recommended', 'Biryanis', 'Indian', 'Tandoori', 'Chinese', 'Noodles & Fried Rice', 'Soups', 'Roti', 'Dessert'];
+  const categories = ['Recommended', 'Shake', 'Fries', 'Tandoori', 'Chinese', 'Noodles & Fried Rice', 'Soups', 'Roti', 'Dessert'];
   const [activeCategory, setActiveCategory] = useState(categories[0]);
+  const [pToken, setpToken] = useState(0);
 
-  // const [token, setToken] = useState(null);
-  // const [notification, setNotification] = useState(null);
-  //notification
-  // useEffect(() => {
-  //   requestFirebaseNotificationPermission()
-  //     .then((firebaseToken) => {
-  //       setToken(firebaseToken);
-  //       console.log('Firebase token:', firebaseToken);
-  //       // Save the token to your backend
-  //     })
-  //     .catch((err) => console.error(err));
-
-  //   onMessageListener()
-  //     .then((payload) => {
-  //       setNotification({
-  //         title: payload.notification.title,
-  //         body: payload.notification.body,
-  //       });
-  //     })
-  //     .catch((err) => console.error('Failed to receive message: ', err));
-  // }, []);
   useEffect(() => {
-    // Check if the token exists in cookies
     const checkAuthentication = async () => {
       const token = localStorage.getItem('token');
       if (token) {
@@ -67,7 +44,6 @@ const App = () => {
     const fetchCart = async () => {
       try {
         const token = localStorage.getItem('token');
-        
         const response = await axios.get('/api/cart', {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -79,7 +55,6 @@ const App = () => {
             product: item.productId,
             quantity: item.quantity
           };
-          
         });
         setCart(cartData);
         console.log('Cart fetched successfully');
@@ -91,61 +66,56 @@ const App = () => {
     fetchCart();
   }, []);
 
-  const updateCartItem = async (itemId, quantity) => {
-    try {
-      const token = localStorage.getItem('token'); // Get token from local storage
-      const response = await axios.put(
-        `/api/cart/items/${itemId}`, 
-        { quantity }, 
-        { headers: { Authorization: `Bearer ${token}` } } // Include token in headers
-      );
-      console.log(itemId)
-      console.log(response)
-      
-      // Update the local state only if the API call is successful
-      setCart(prevCart => ({
-        ...prevCart,
-        [itemId]: {
-          ...prevCart[itemId],
-          quantity: response.data.quantity
-        }
-      }));
-      console.log('Cart item updated:', response.data);
-    } catch (error) { 
-      console.error('Error updating cart item:', error);
-      // Handle error (e.g., display error message to the user)
-    }
-  }
+  useEffect(() => {
+    const calculatePlasticToken = () => {
+      const totalPlasticToken = Object.keys(cart).reduce((pToken, productId) => {
+        const item = cart[productId];
+        return pToken + (item.product.plastic * item.quantity);
+      }, 0);
+      setpToken(totalPlasticToken);
+      console.log(pToken)
+    };
 
-  const handleIncrement = (productId) => {
-    const newQuantity = cart[productId].quantity + 1;
-    updateCartItem(productId, newQuantity);
-  };
-
-  const handleDecrement = (productId) => {
-    const newQuantity = cart[productId].quantity - 1;
-    if (newQuantity > 0) {
-      updateCartItem(productId, newQuantity);
-    }
-  };
-
-  const addToCart = (product, quantity) => {
-    setCart((prevCart) => {
-      const newCart = { ...prevCart };
-      if (newCart[product.id]) {
-        newCart[product.id].quantity += quantity;
-      } else {
-        newCart[product.id] = { product, quantity };
-      }
-      return newCart;
-    });
-  };
+    calculatePlasticToken();
+  }, [cart]); // Run this effect when cart changes
 
   const getTotalCartValue = () => {
     return Object.keys(cart).reduce((total, productId) => {
       const item = cart[productId];
       return total + (item.quantity * parseFloat(item.product.price));
     }, 0);
+  };
+
+  const updateCartItem = async (itemId, quantity) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `/api/cart/items/${itemId}`,
+        { quantity },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setCart(prevCart => ({
+        ...prevCart,
+        [itemId]: {
+          ...prevCart[itemId],
+          quantity: quantity
+        }
+      }));
+    } catch (error) {
+      console.error('Error updating cart item:', error);
+    }
+  };
+
+  const handleUpdateQuantity = (productId, newQuantity) => {
+    setCart(prevCart => ({
+      ...prevCart,
+      [productId]: {
+        ...prevCart[productId],
+        quantity: newQuantity
+      }
+    }));
+    updateCartItem(productId, newQuantity);
   };
 
   const handleAddressChange = () => {
@@ -157,24 +127,27 @@ const App = () => {
     setIsFormVisible(false);
   };
 
+  const addToCart = (productId, product, quantity = 1) => {
+    setCart(prevCart => ({
+      ...prevCart,
+      [productId]: {
+        product,
+        quantity: prevCart[productId] ? prevCart[productId].quantity + quantity : quantity
+      }
+      
+    }));
+  };
+  
   const location = useLocation();
 
   return (
     <AuthProvider>
+      <Toaster />
       <UserProvider>
-        
-
-        {/* {notification && (
-          <div>
-            <h2>{notification.title}</h2>
-            <p>{notification.body}</p>
-          </div>
-        )} */}
-
         {location.pathname === '/menu' && (
           <MenuNavbar
             cartCount={Object.keys(cart).length}
-            getTotalCartValue={() => getTotalCartValue(cart)}
+            getTotalCartValue={getTotalCartValue}
             onAddressChange={handleAddressChange}
             cart={cart}
           />
@@ -211,8 +184,8 @@ const App = () => {
               />
             }
           />
-          <Route path="/cart" element={<CartPage cart={cart} handleIncrement={handleIncrement} handleDecrement={handleDecrement} />} />
-          <Route path="/menu/:productId" element={<ProductDetail />} />
+          <Route path="/cart" element={<CartPage cart={cart} handleUpdateQuantity={handleUpdateQuantity} setCart={setCart} pToken={pToken} setpToken={setpToken} />} />
+          <Route path="/menu/:productId" element={<ProductDetail addToCart={addToCart} />} />
           <Route path="/checkout" element={<PaymentPage cart={cart} />} />
           <Route path="/order-confirm" element={<OrderConfirmPage cart={cart} />} />
         </Routes>

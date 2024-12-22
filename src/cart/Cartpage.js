@@ -1,13 +1,93 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './CartPage.css';
+import axios from 'axios';
+import { useUser } from '../utils/context';
+import toast from 'react-hot-toast';
 
-const CartPage = ({ cart, handleDecrement, handleIncrement }) => {
+const CartPage = ({ cart, handleUpdateQuantity, setCart,pToken,setpToken }) => { // Added setCart prop
+  const { user } = useUser();
+  const navigate = useNavigate();
+  // console.log("catpage token value:",pToken)
   const getTotalCartValue = () => {
+    
     return Object.keys(cart).reduce((total, productId) => {
       const item = cart[productId];
       return total + (item.quantity * parseFloat(item.product.price));
     }, 0);
+  };
+
+  const handleChange = (productId, event) => {
+    const newQuantity = parseInt(event.target.value, 10);
+    handleUpdateQuantity(productId, newQuantity);
+  };
+
+  const handleRemove = async (productId) => {
+    
+    try {
+      await axios.delete(`/api/cart/${productId}`, {
+        headers: { Authorization: `Bearer ${user.token}` }, // Include auth token if needed
+      });
+      setCart((prevCart) => {
+        const newCart = { ...prevCart };
+        delete newCart[productId];
+        return newCart;
+      });
+      toast.success("Item removed from cart");
+      window.location.reload(); 
+    } catch (error) {
+      console.error('Failed to remove item:', error);
+      toast.error("Failed to remove item. Please try again.");
+    }
+  };
+
+  const handleCheckout = async () => {
+    try {
+      const response = await axios.post('/api/payment', {
+        userId: user._id,
+        cart
+      });
+      const { orderId } = response.data;
+
+      // Redirect to Razorpay payment gateway
+      const options = {
+        key: process.env.RAZORPAY_KEY_ID,
+        amount: getTotalCartValue() * 100, // in paise
+        currency: 'INR',
+        name: 'Your App Name', // Update with your app's name
+        description: 'Test Transaction',
+        order_id: orderId,
+        handler: async function (response) {
+          const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+          await axios.post('/api/payment/verify', {
+            razorpay_payment_id,
+            razorpay_order_id,
+            razorpay_signature,
+            userId: user._id,
+            cart,
+            ptoken: pToken
+          });
+          toast.success("Payment Successful!");
+          navigate('/order-confirm');
+        },
+        prefill: {
+          name: user.name,
+          email: user.email,
+          // contact: '9999999999'
+        },
+        theme: {
+          color: '#3399cc'
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+      console.log(pToken)
+      setpToken(0);
+    } catch (error) {
+      console.error('Checkout failed:', error);
+      toast.error("Checkout failed. Please try again.");
+    }
   };
 
   return (
@@ -20,7 +100,6 @@ const CartPage = ({ cart, handleDecrement, handleIncrement }) => {
             return (
               <div key={productId} className="flex items-center justify-between border-b py-4">
                 <div className="flex items-center">
-                  <input type="checkbox" className="mr-4 w-6 h-6" />
                   <div className="relative group ml-8">
                     <img
                       src={item.product.image}
@@ -30,13 +109,23 @@ const CartPage = ({ cart, handleDecrement, handleIncrement }) => {
                   </div>
                   <div className="ml-8 flex flex-col justify-center">
                     <p className="text-lg font-medium">{item.product.name}</p>
-                    <p className="text-sm text-gray-500 mt-1">Quantity: {item.quantity}</p>
                     <div className="flex items-center mt-2">
-                      <button onClick={() => handleDecrement(productId)} className="px-2 py-1 bg-gray-200 text-gray-700 rounded">-</button>
-                      <span className="mx-2">{item.quantity}</span>
-                      <button onClick={() => handleIncrement(productId)} className="px-2 py-1 bg-gray-200 text-gray-700 rounded">+</button>
+                      <select 
+                        value={item.quantity} 
+                        onChange={(e) => handleChange(productId, e)}
+                        className="px-2 py-1 bg-gray-200 text-gray-700 rounded"
+                      >
+                        {Array.from({ length: 10 }, (_, i) => i + 1).map(num => (
+                          <option key={num} value={num}>{num}</option>
+                        ))}
+                      </select>
                     </div>
-                    <button className="text-sm text-blue-500 mt-2">Move to Favorites</button>
+                    <button 
+                      onClick={() => handleRemove(productId) } // Add onClick handler for Remove button
+                      className="text-sm text-red-500 mt-2"
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
                 <div className="text-lg font-bold">${(item.quantity * parseFloat(item.product.price)).toFixed(2)}</div>
@@ -59,7 +148,7 @@ const CartPage = ({ cart, handleDecrement, handleIncrement }) => {
               <span>Total</span>
               <span>${getTotalCartValue().toFixed(2)}</span>
             </div>
-            <Link to="/checkout"><button className="w-full bg-black text-white py-2 mt-4">CHECKOUT</button></Link>
+            <button onClick={handleCheckout} className="w-full bg-black text-white py-2 mt-4">CHECKOUT</button>
           </div>
         </div>
       </div>

@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import css from './SearchBar.module.css';
-import searchIcon from '../assets/icons/search.png';
+import { useNavigate } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
 
-// Debounce function to limit the rate of function calls
 const debounce = (func, delay) => {
     let debounceTimer;
     return function(...args) {
@@ -16,7 +14,7 @@ const debounce = (func, delay) => {
 const SearchBar = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     const fetchResults = async (searchQuery) => {
         if (searchQuery.length > 2) {
@@ -40,34 +38,35 @@ const SearchBar = () => {
     };
 
     const handleResultClick = (productId) => {
-        // Navigate to the product detail page
         navigate(`/menu/${productId}`);
     };
 
     return (
-        <div className={css.srch2}>
-            <div className={css.iconBox}>
-                <img className={css.icon} src={searchIcon} alt="search icon" />
+        <div className="relative">
+            <div className="flex items-center bg-white rounded-full shadow-lg">
+                <div className="pl-4">
+                    <FaSearch className="text-gray-500" />
+                </div>
+                <input
+                    type="text"
+                    value={query}
+                    onChange={handleSearch}
+                    placeholder="Search for restaurant, cuisine or a dish"
+                    className="w-full py-3 px-4 rounded-full focus:outline-none"
+                />
             </div>
-            <input
-                type="text"
-                value={query}
-                onChange={handleSearch}
-                placeholder="Search for restaurant, cuisine or a dish"
-                className={css.inpt}
-            />
             {results.length > 0 && (
-                <div className={css.results}>
+                <div className="absolute mt-2 w-full bg-white rounded-lg shadow-lg z-10">
                     {results.map(result => (
                         <div
                             key={result._id}
-                            className={css.resultItem}
-                            onClick={() => handleResultClick(result._id)} // Add onClick handler
+                            className="flex items-center p-3 hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleResultClick(result._id)}
                         >
-                            <img src={result.image} alt={result.name} className={css.resultImage} />
+                            <img src={result.image} alt={result.name} className="w-12 h-12 object-cover rounded-full mr-4" />
                             <div>
-                                <div className={css.resultName}>{result.name}</div>
-                                <div className={css.resultPrice}>${result.price}</div>
+                                <div className="font-semibold">{result.name}</div>
+                                <div className="text-gray-600">${result.price}</div>
                             </div>
                         </div>
                     ))}
@@ -78,3 +77,4 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
+

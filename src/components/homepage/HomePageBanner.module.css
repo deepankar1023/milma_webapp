@@ -28,7 +28,7 @@
     font-size: 4rem; /* Increased font size */
     font-weight: bold;
     text-align: center;
-    color: whitesmoke; /* Set color to white */
+    color: rgb(165, 245, 68); /* Set color to white */
     font-family: 'Arial Black', Gadget, sans-serif; /* Suitable font family for titles */
     text-transform: uppercase; /* Optional: Makes the text uppercase */
     letter-spacing: 0.05em; /* Optional: Adds a bit of spacing between letters */

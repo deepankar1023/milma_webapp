@@ -1,26 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Navbar from "../navbar/Navbar"
+import Navbar from "../navbar/Navbar";
 import SearchBar from "../SearchBar/SearchBar";
-import SmallCard from '../card1/SmallCard';
+import SmallCard from '../SmallCards/SmallCards';
 import Footer from "../Footer/Footer";
 import OrderCard from '../ordercard/OrderCard';
 
-import orderOnlineImg from '../assets/images/orderonline.jpg';
-import diningoutImg from '../assets/images/diningout.jpg';
-import proandproplusImg from '../assets/images/proandproplus.jpg';
-import nightlifeandclubsImg from '../assets/images/nightlifeandclubs.jpg';
+// Import all images at the top
+import orderOnlineImg from './images/img1.jpg';
+import diningoutImg from './images/img2.jpg';
+import proandproplusImg from './images/img3.jpg';
+import nightlifeandclubsImg from './images/img4.png';
+import milmaBannerImg from "./milma1.jpeg";
 
 import css from './HomePageBanner.module.css';
-import milma from "./milma.jpg";
 
 const HomePageBanner = ({ isLoggedIn, setIsLoggedIn, city }) => {
     return (
         <div className={css.banner}>
             <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
             <div className={css.bannerInner}>
-                <img src={milma} alt="banner" className={css.bannerImg} />
+                <img src={milmaBannerImg} alt="banner" className={css.bannerImg} />
                 <div className={css.bannerTxt}>
                     <div className={css.title}>Milma</div>
                     <div className={css.tag}>Discover the best food & drinks in <span className={css.bld}>{city}</span></div>
@@ -30,15 +31,19 @@ const HomePageBanner = ({ isLoggedIn, setIsLoggedIn, city }) => {
                 </div>
             </div>
 
-            <div className={css.chooseTypeCards}>
+            <div className="flex flex-wrap justify-center items-center py-12 bg-gray-100">
                 <SmallCard imgSrc={orderOnlineImg} text="Order Online" />
                 <SmallCard imgSrc={diningoutImg} text="Dining Out" />
                 <SmallCard imgSrc={proandproplusImg} text="Pro and Pro Plus" />
-                <Link to="/menu"><SmallCard imgSrc={nightlifeandclubsImg} text="Night Life and Clubs" /></Link>
+                <SmallCard 
+                  imgSrc={nightlifeandclubsImg}
+                  text="Night Life and Clubs" 
+                  link="/menu"
+                />
             </div>
 
             <OrderCard />
-            <div className="mt-10"> {/* Add margin at the top */}
+            <div className="mt-10">
                 <Footer />
             </div>
         </div>
@@ -46,3 +51,4 @@ const HomePageBanner = ({ isLoggedIn, setIsLoggedIn, city }) => {
 };
 
 export default HomePageBanner;
+

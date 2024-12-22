@@ -1,89 +1,76 @@
-import footerCss from './Footer.module.css';
+import React from 'react';
+import { FaFacebookF, FaLinkedinIn, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
-import Gstore from '../assets/icons/playstore.png';
-import Appstore from '../assets/icons/appstore.png';
-import indianFlag from '../assets/images/indiaflag.png';
+const Footer = () => {
+    return (
+        <footer className="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+                <div className="flex flex-wrap justify-between items-center mb-8">
+                    <div className="text-3xl font-bold text-red-600 mb-4 sm:mb-0">Chowk</div>
+                </div>
 
-import Facebook from '../assets/images/facebook.png'
-import Twitter from '../assets/images/twitter.png'
-import Instagram from '../assets/images/instagram.png'
-import Linkedin from '../assets/images/linkedin.png'
-import Youtube from '../assets/images/youtube.png'
-
-let Footer = () => {
-    return <div className={footerCss.footer}>
-        <div className={footerCss.innerFooter}>
-            <div className={footerCss.sec1}>
-                <div className={footerCss.logoBox}>Tomato</div>
-                <div className={footerCss.filters}>
-                    <div className={footerCss.filterBox}> <span>
-                        <img className={footerCss.icon} src={indianFlag} alt="india flag" />
-                    </span>
-                        <span>India</span>
-                        <span className={footerCss.arrow} >&#709;</span></div>
-                    <div className={footerCss.filterBox}><span>🌐<span></span> English</span> <span className={footerCss.arrow} >&#709;</span></div>
-                </div>
-            </div>
-            <div className={footerCss.sec2}>
-                <div className={[footerCss.box1, footerCss.box].join(' ')}>
-                    <div className={footerCss.boxTtl}>ABOUT TOMATO</div>
-                    <a href="" className={footerCss.boxOpt}>Who We Are</a>
-                    <a href="" className={footerCss.boxOpt}>Blog</a>
-                    <a href="" className={footerCss.boxOpt}>Work With Us</a>
-                    <a href="" className={footerCss.boxOpt}>Investor Relations</a>
-                    <a href="" className={footerCss.boxOpt}>Report Fraud</a>
-                </div>
-                <div className={[footerCss.box2, footerCss.box].join(' ')}>
-                    <div className={footerCss.boxTtl}>TOMAVERSE</div>
-                    <a href="" className={footerCss.boxOpt}>Tomato</a>
-                    <a href="" className={footerCss.boxOpt}>Feeding India</a>
-                    <a href="" className={footerCss.boxOpt}>Hyperpure</a>
-                    <a href="" className={footerCss.boxOpt}>Tomaland</a>
-                </div>
-                <div className={[footerCss.box3, footerCss.box].join(' ')}>
-                    <div className={footerCss.boxTtl}>FOR RESTAURANTS</div>
-                    <a href="" className={footerCss.boxOpt}>Partner With Us</a>
-                    <a href="" className={footerCss.boxOpt}>Apps For You</a>
-
-                    <div className={footerCss.boxTtl}>FOR ENTERPRISES</div>
-                    <a href="" className={footerCss.boxOpt}>Tomato For Work</a>
-                </div>
-                <div className={[footerCss.box4, footerCss.box].join(' ')}>
-                    <div className={footerCss.boxTtl}>LEARN MORE</div>
-                    <a href="" className={footerCss.boxOpt}>Privacy</a>
-                    <a href="" className={footerCss.boxOpt}>Security</a>
-                    <a href="" className={footerCss.boxOpt}>Terms</a>
-                    <a href="" className={footerCss.boxOpt}>Sitemap</a>
-                </div>
-                <div className={[footerCss.box5, footerCss.box].join(' ')}>
-                    <div className={footerCss.boxTtl}>SOCIAL LINKS</div>
-                    <div className={footerCss.socialImgs}>
-                        <a href="" className={footerCss.socialImgAnchore} >
-                            <img className={footerCss.socialImg} src={Facebook} alt="linkedin" />
-                        </a>
-                        <a href="" className={footerCss.socialImgAnchore} >
-                            <img className={footerCss.socialImg} src={Linkedin} alt="instagram" />
-                        </a>
-                        <a href="" className={footerCss.socialImgAnchore} >
-                            <img className={footerCss.socialImg} src={Instagram} alt="facebook" />
-                        </a>
-                        <a href="" className={footerCss.socialImgAnchore} >
-                            <img className={footerCss.socialImg} src={Twitter} alt="twitter" />
-                        </a>
-                        <a href="" className={footerCss.socialImgAnchore} >
-                            <img className={footerCss.socialImg} src={Youtube} alt="youtube" />
-                        </a>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                    <div>
+                        <h3 className="font-semibold text-red-600 mb-3">ABOUT Chowk</h3>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Who We Are</a>
                     </div>
-                    <a href='' className={footerCss.app}><img className={footerCss.appImg} src={Gstore} alt="google play store" /></a>
-                    <a href='' className={footerCss.app}><img className={footerCss.appImg} src={Appstore} alt="apple app store" /></a>
+
+                    <div>
+                        <h3 className="font-semibold text-red-600 mb-3">TOMAVERSE</h3>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Tomato</a>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Feeding India</a>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Hyperpure</a>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Tomaland</a>
+                    </div>
+
+                    <div>
+                        <h3 className="font-semibold text-red-600 mb-3">FOR RESTAURANTS</h3>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Partner With Us</a>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Apps For You</a>
+
+                        <h3 className="font-semibold text-red-600 mt-6 mb-3">FOR ENTERPRISES</h3>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Tomato For Work</a>
+                    </div>
+
+                    <div>
+                        <h3 className="font-semibold text-red-600 mb-3">LEARN MORE</h3>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Privacy</a>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Security</a>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Terms</a>
+                        <a href="#" className="block text-black hover:text-red-600 mb-2">Sitemap</a>
+                    </div>
+
+                    <div>
+                        <h3 className="font-semibold text-red-600 mb-3">SOCIAL LINKS</h3>
+                        <div className="flex space-x-4 mb-4">
+                            <a href="#" className="text-black hover:text-red-600">
+                                <FaFacebookF size={24} />
+                            </a>
+                            <a href="#" className="text-black hover:text-red-600">
+                                <FaLinkedinIn size={24} />
+                            </a>
+                            <a href="#" className="text-black hover:text-red-600">
+                                <FaInstagram size={24} />
+                            </a>
+                            <a href="#" className="text-black hover:text-red-600">
+                                <FaTwitter size={24} />
+                            </a>
+                            <a href="#" className="text-black hover:text-red-600">
+                                <FaYoutube size={24} />
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
+                <hr className="my-8 border-gray-300" />
+
+                <p className="text-sm text-black text-justify">
+                    By continuing past this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are properties of their respective owners. 2008-2022 © Tomato™ Ltd. All rights reserved.
+                </p>
             </div>
-            <hr className={footerCss.breakLine} />
-            <div className={footerCss.sec3}>
-                By continuing past this page, you agree to our Terms of Service, Cookie Policy, Privacy Policy and Content Policies. All trademarks are properties of their respective owners. 2008-2022 © Tomato™ Ltd. All rights reserved.
-            </div>
-        </div>
-    </div>
+        </footer>
+    );
 }
 
 export default Footer;
+
