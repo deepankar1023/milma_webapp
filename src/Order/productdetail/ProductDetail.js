@@ -18,7 +18,7 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/products/${productId}`);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/products/${productId}`);
         setProduct(response.data);
       } catch (error) {
         console.error('Failed to fetch product:', error);
@@ -38,7 +38,7 @@ const ProductDetail = () => {
     if (count > 0 && user) {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.post('/api/cart', {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/cart`, {
           userId: user._id,
           product: {
             _id: product._id,

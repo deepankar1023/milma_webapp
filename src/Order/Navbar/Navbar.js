@@ -1,64 +1,138 @@
 import React, { useState, useEffect } from 'react';
-import logo from "../../components/assets/logo.png";
 import { Link } from 'react-router-dom';
+import { ShoppingCart } from 'lucide-react';
 
+const Button = ({ children, variant, className, onClick, as: Component = 'button', ...props }) => {
+  const baseStyle = "px-4 py-2 rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-offset-2";
+  const variantStyles = {
+    default: "bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500",
+    outline: "border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500",
+    ghost: "text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
+  };
+
+  return (
+    <Component
+      className={`${baseStyle} ${variantStyles[variant] || variantStyles.default} ${className}`}
+      onClick={onClick}
+      {...props}
+    >
+      {children}
+    </Component>
+  );
+};
+
+const DropdownMenu = ({ children, trigger }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      {React.cloneElement(trigger, { onClick: () => setIsOpen(!isOpen) })}
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg z-50">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const DropdownMenuContent = ({ children }) => (
+  <div className="py-1">{children}</div>
+);
+
+const DropdownMenuItem = ({ children, className, ...props }) => (
+  <div className={`px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${className}`} {...props}>
+    {children}
+  </div>
+);
+
+const DropdownMenuLabel = ({ children }) => (
+  <div className="px-4 py-2 text-sm font-semibold text-gray-900">{children}</div>
+);
+
+const DropdownMenuSeparator = () => (
+  <hr className="my-1 border-gray-200" />
+);
 
 const MenuNavbar = ({ cart, getTotalCartValue, onAddressChange }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
   useEffect(() => {
     const items = Object.values(cart);
     setCartItems(items);
-    
   }, [cart]);
 
   return (
-    <header className="text-gray-600 body-font bg-gray-100">
-      <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <Link to="/" className="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">
-          <img src={logo} className="w-12 h-12" alt="Logo" />
-          <span className="ml-3 text-xl">AlCheta</span>
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white bg-opacity-95 backdrop-blur">
+      <div className="container mx-auto px-4 flex h-16 items-center">
+        <Link to="/" className="flex items-center space-x-2">
+          <img src="/logo.png" alt="AlCheta Logo" className="w-10 h-10" />
+          <span className="text-xl font-bold">AlCheta</span>
         </Link>
-        <div className="flex-grow"></div>
-        <div className="lg:w-2/5 inline-flex lg:justify-end items-center lg:ml-0">
-          <button onClick={onAddressChange} className="inline-flex items-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-600 rounded text-base mt-4 md:mt-0 mr-2">
-            Change Address
-          </button>
-          <div className="relative">
-            <button className="inline-flex items-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-600 rounded text-base mt-4 md:mt-0 ml-2" onClick={toggleDropdown}>
-              <i className="fas fa-shopping-cart text-white"></i>
-              <span className="ml-2 text-white">{cartItems.length}</span>
-              <span className="ml-2 text-white">Total: ${getTotalCartValue().toFixed(2)}</span>
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-80 bg-white shadow-lg rounded-lg p-4 z-50">
-                <h3 className="text-lg font-semibold mb-2">Shopping Cart</h3>
-                {cartItems.length === 0 ? (
-                  <p>Your cart is empty.</p>
-                ) : (
-                  cartItems.map(item => (
-                    <div key={item.product.id} className="flex items-center mb-2">
-                      <img src={item.product.image} alt={item.product.name} className="w-12 h-12 object-cover rounded-lg" />
-                      <div className="ml-2">
-                        <p className="text-sm">{item.product.name}</p>
-                        <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
-                        <p className="text-sm text-gray-500">Total: ${(item.quantity * parseFloat(item.product.price)).toFixed(2)}</p>
-                      </div>
-                    </div>
-                  ))
+        <div className="flex flex-1 items-center justify-end space-x-4">
+          <nav className="flex items-center space-x-2">
+            <Button variant="ghost" as={Link} to="/">
+              Home
+            </Button>
+            <Button variant="ghost" as={Link} to="/products">
+              Products
+            </Button>
+            <Button variant="ghost" onClick={onAddressChange}>
+              Change Address
+            </Button>
+          </nav>
+          <DropdownMenu
+            trigger={
+              <Button variant="outline" className="relative">
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                <span>Cart ({cartItems.length})</span>
+                <span className="sr-only">Shopping Cart</span>
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-blue-500 text-xs text-white flex items-center justify-center">
+                    {cartItems.length}
+                  </span>
                 )}
-                <Link to="/cart" className="block text-center text-blue-500 mt-4">View All
+              </Button>
+            }
+          >
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Shopping Cart</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {cartItems.length === 0 ? (
+                <DropdownMenuItem>Your cart is empty.</DropdownMenuItem>
+              ) : (
+                cartItems.map((item) => (
+                  <DropdownMenuItem key={item.product.id} className="flex items-center p-2">
+                    <img
+                      src={item.product.image}
+                      alt={item.product.name}
+                      className="w-12 h-12 rounded-md object-cover"
+                    />
+                    <div className="ml-3 flex-1">
+                      <p className="text-sm font-medium">{item.product.name}</p>
+                      <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
+                    </div>
+                    <p className="text-sm font-medium">
+                      ${(item.quantity * parseFloat(item.product.price)).toFixed(2)}
+                    </p>
+                  </DropdownMenuItem>
+                ))
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="justify-between">
+                <span>Total:</span>
+                <span className="font-bold">${getTotalCartValue().toFixed(2)}</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem as={Link} to="/cart" className="w-full text-center">
+              <Link to="/cart"><Button variant="default" className="w-full mt-2">
+                  View Cart
+                </Button>
                 
                 </Link>
                 
-              </div>
-            )}
-          </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>
@@ -66,3 +140,4 @@ const MenuNavbar = ({ cart, getTotalCartValue, onAddressChange }) => {
 };
 
 export default MenuNavbar;
+

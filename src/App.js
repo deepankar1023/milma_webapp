@@ -44,7 +44,7 @@ const App = () => {
     const fetchCart = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('/api/cart', {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/cart`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -90,7 +90,7 @@ const App = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `/api/cart/items/${itemId}`,
+        `${process.env.REACT_APP_BASE_URL}/api/cart/items/${itemId}`,
         { quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );

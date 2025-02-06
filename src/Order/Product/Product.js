@@ -19,7 +19,7 @@ const Product = ({ product, quantity }) => {
     if (count > 0 && user) {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.post('/api/cart', {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/cart`, {
           userId: user._id,
           product: {
             _id: product._id,

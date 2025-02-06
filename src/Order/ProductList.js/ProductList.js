@@ -11,7 +11,7 @@ const ProductList = ({ categories, activeCategory, setActiveCategory, cart }) =>
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('/getitems'); // Replace with your API endpoint
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/getitems`); // Replace with your API endpoint
         setProducts(response.data);
         setIsLoading(false);
       } catch (error) {

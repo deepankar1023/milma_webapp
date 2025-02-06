@@ -3,7 +3,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
-import {useAuth} from '../utils/auth';
+import { useAuth } from '../utils/auth';
 
 const LoginForm = ({ setIsLoggedIn }) => {
     const navigate = useNavigate();
@@ -23,12 +23,16 @@ const LoginForm = ({ setIsLoggedIn }) => {
 
     const checkServerConnection = async () => {
         try {
-            await axios.get("/ping");
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/ping`);
+            console.log("✅ Server Response:", response.data); // Debugging log
             return true;
         } catch (error) {
+            console.error("❌ Server Connection Error:", error.message);
+            console.error("🔴 Full Error Details:", error);
             return false;
         }
     };
+    
 
     const submitHandler = async (event) => {
         event.preventDefault();
@@ -39,14 +43,20 @@ const LoginForm = ({ setIsLoggedIn }) => {
         }
 
         try {
-            const response = await axios.post("/login", formData);
+            const response = await axios.post(
+                `${process.env.REACT_APP_BASE_URL}/login`,
+                formData,
+                {
+                    withCredentials: true // Ensure cookies/token are sent and received
+                }
+            );
             storeTokenInLS(response.data.token);
             setIsLoggedIn(true);
             toast.success("Logged In");
             navigate("/");
         } catch (error) {
             console.error("Login error:", error);
-            toast.error("Failed to login");
+            toast.error(error.response?.data?.message || "Failed to login");
         }
     };
 

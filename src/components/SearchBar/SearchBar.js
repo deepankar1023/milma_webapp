@@ -19,7 +19,7 @@ const SearchBar = () => {
     const fetchResults = async (searchQuery) => {
         if (searchQuery.length > 2) {
             try {
-                const response = await axios.get(`/api/products/search?q=${searchQuery}`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/products/search?q=${searchQuery}`);
                 setResults(response.data);
             } catch (error) {
                 console.error('Error fetching search results:', error);

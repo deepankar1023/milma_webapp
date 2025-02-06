@@ -9,7 +9,7 @@ const RelatedProducts = ({ category, currentProductId }) => {
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       try {
-        const response = await axios.get(`/api/products?category=${category}&limit=4`);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/products?category=${category}&limit=4`);
         setRelatedProducts(response.data.filter(product => product._id !== currentProductId));
       } catch (error) {
         console.error('Failed to fetch related products:', error);

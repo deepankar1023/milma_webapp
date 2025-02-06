@@ -43,7 +43,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
         };
 
         try {
-            const response = await axios.post("/signup", accountData);
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/signup`, accountData);
             toast.success("Account Created");
             navigate("/");
         } catch (error) {
